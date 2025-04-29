@@ -1,5 +1,10 @@
 # ProductManagerAngular15
 
+Node.js 16.20.2
+npm 8.19.4
+Angular CLI 15.2.11 globalmente instalado para esse Node
+
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.11.
 
 ## Development server
