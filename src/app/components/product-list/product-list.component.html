@@ -1,1 +1,30 @@
-<p>product-list works!</p>
+<div class="container">
+    <h2>Product List</h2>
+  
+    <button routerLink="/products/create">Create Product</button>
+  
+    <table border="1" cellpadding="8" cellspacing="0">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Price</th>
+          <th>Available</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of products">
+          <td>{{ product.name }}</td>
+          <td>{{ product.description }}</td>
+          <td>{{ product.price | currency }}</td>
+          <td>{{ product.available ? 'Yes' : 'No' }}</td>
+          <td>
+            <button [routerLink]="['/products/edit', product.id]">Edit</button>
+            <button *ngIf="product.id" (click)="deleteProduct(product.id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
