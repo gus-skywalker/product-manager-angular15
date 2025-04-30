@@ -1,6 +1,6 @@
-// File: src/app/services/product.service.ts
 import { Component, OnInit } from '@angular/core';
-import { ProductService, Product, ProductDTO } from '../../services/product.service';
+import { ProductService, ProductDTO } from '../../services/product.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-product-list',
@@ -9,8 +9,12 @@ import { ProductService, Product, ProductDTO } from '../../services/product.serv
 })
 export class ProductListComponent implements OnInit {
   products: ProductDTO[] = [];
+  displayedColumns: string[] = ['name', 'description', 'price', 'available', 'categoryPath', 'actions'];
 
-  constructor(private productService: ProductService) { }
+  constructor(
+    private productService: ProductService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loadProducts();
@@ -22,10 +26,14 @@ export class ProductListComponent implements OnInit {
     });
   }
 
+  editProduct(id: number): void {
+    this.router.navigate(['/products/edit', id]);
+  }
+
   deleteProduct(id: number): void {
     if (confirm('Are you sure you want to delete this product?')) {
       this.productService.deleteProduct(id).subscribe(() => {
-        this.loadProducts(); // reload after delete
+        this.loadProducts();
       });
     }
   }
