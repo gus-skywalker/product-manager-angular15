@@ -1,6 +1,6 @@
 // File: src/app/services/product.service.ts
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Product {
@@ -33,6 +33,14 @@ export interface ProductRequest {
   };
 }
 
+export interface Page<T> {
+  content: T[];
+  totalElements: number;
+  totalPages: number;
+  number: number;
+  size: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -42,10 +50,28 @@ export class ProductService {
 
   constructor(private http: HttpClient) { }
 
-  getProducts(): Observable<ProductDTO[]> {
-    return this.http.get<ProductDTO[]>(this.apiUrl);
-  }
+  // getProducts(): Observable<ProductDTO[]> {
+  //   return this.http.get<ProductDTO[]>(this.apiUrl);
+  // }
 
+  getProducts(params: {
+    page?: number;
+    size?: number;
+    sort?: string;
+    name?: string;
+    categoryId?: number;
+    available?: boolean;
+  } = {}): Observable<Page<ProductDTO>> {
+    let httpParams = new HttpParams();
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        httpParams = httpParams.set(key, value.toString());
+      }
+    });
+  
+    return this.http.get<Page<ProductDTO>>(this.apiUrl, { params: httpParams });
+  }
+  
   getProductById(id: number): Observable<ProductDTO> {
     return this.http.get<ProductDTO>(`${this.apiUrl}/${id}`);
   }
