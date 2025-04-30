@@ -51,11 +51,11 @@ export class ProductService {
   }
 
   createProduct(product: ProductRequest): Observable<any> {
-    return this.http.post<ProductRequest>(this.apiUrl, product);
+    return this.http.post<ProductDTO>(this.apiUrl, product);
   }
 
   updateProduct(id: number, product: ProductRequest): Observable<any> {
-    return this.http.put<ProductRequest>(`${this.apiUrl}/${id}`, product);
+    return this.http.put<ProductDTO>(`${this.apiUrl}/${id}`, product);
   }
 
   deleteProduct(id: number): Observable<void> {

@@ -3,9 +3,23 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Category {
+  id?: number;
+  name: string;
+  fullPath?: string;
+  parent?: {
+    id: number;
+  };
+}
+
+export interface CategoryDTO {
   id: number;
   name: string;
   fullPath: string;
+}
+
+export interface CategoryCreateRequest {
+  name: string;
+  parentId?: number;
 }
 
 @Injectable({
@@ -17,7 +31,11 @@ export class CategoryService {
 
   constructor(private http: HttpClient) { }
 
-  getCategories(): Observable<Category[]> {
-    return this.http.get<Category[]>(this.apiUrl);
+  getCategories(): Observable<CategoryDTO[]> {
+    return this.http.get<CategoryDTO[]>(this.apiUrl);
+  }
+
+  createCategory(category: CategoryCreateRequest): Observable<CategoryDTO> {
+    return this.http.post<CategoryDTO>(this.apiUrl, category);
   }
 }

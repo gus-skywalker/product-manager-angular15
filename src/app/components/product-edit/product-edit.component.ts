@@ -15,6 +15,7 @@ export class ProductEditComponent implements OnInit {
   productForm: FormGroup;
   productId!: number;
   categories: Category[] = [];
+  product!: any;
 
   constructor(
     private fb: FormBuilder,
@@ -47,6 +48,8 @@ export class ProductEditComponent implements OnInit {
 
   loadProduct(): void {
     this.productService.getProductById(this.productId).subscribe(product => {
+      this.product = product;
+
       this.productForm.patchValue({
         name: product.name,
         description: product.description,

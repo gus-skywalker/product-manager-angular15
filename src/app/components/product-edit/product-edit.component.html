@@ -31,6 +31,9 @@
           {{ category.fullPath }}
         </mat-option>
       </mat-select>
+      <mat-hint *ngIf="product">
+        Original category path: <strong>{{ product.categoryPath }}</strong>
+      </mat-hint>
     </mat-form-field>
 
     <!-- Buttons -->
