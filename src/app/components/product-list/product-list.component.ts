@@ -1,6 +1,6 @@
 // File: src/app/services/product.service.ts
 import { Component, OnInit } from '@angular/core';
-import { ProductService, Product } from '../../services/product.service';
+import { ProductService, Product, ProductDTO } from '../../services/product.service';
 
 @Component({
   selector: 'app-product-list',
@@ -8,7 +8,7 @@ import { ProductService, Product } from '../../services/product.service';
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent implements OnInit {
-  products: Product[] = [];
+  products: ProductDTO[] = [];
 
   constructor(private productService: ProductService) { }
 

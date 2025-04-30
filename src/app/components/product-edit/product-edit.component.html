@@ -1,45 +1,50 @@
 <div class="container">
-    <h2>Edit Product</h2>
-  
-    <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
-      <div>
-        <label>Name:</label>
-        <input type="text" formControlName="name">
-        <div *ngIf="productForm.get('name')?.invalid && productForm.get('name')?.touched">
-          Name is required.
-        </div>
+  <h2>Edit Product</h2>
+
+  <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label>Name:</label>
+      <input type="text" formControlName="name">
+      <div *ngIf="productForm.get('name')?.invalid && productForm.get('name')?.touched">
+        Name is required.
       </div>
-  
-      <div>
-        <label>Description:</label>
-        <textarea formControlName="description"></textarea>
+    </div>
+
+    <div>
+      <label>Description:</label>
+      <textarea formControlName="description"></textarea>
+    </div>
+
+    <div>
+      <label>Price:</label>
+      <input type="number" formControlName="price">
+      <div *ngIf="productForm.get('price')?.invalid && productForm.get('price')?.touched">
+        Price must be greater than or equal to 0.
       </div>
-  
-      <div>
-        <label>Price:</label>
-        <input type="number" formControlName="price">
-        <div *ngIf="productForm.get('price')?.invalid && productForm.get('price')?.touched">
-          Price must be greater than or equal to 0.
-        </div>
+    </div>
+
+    <div>
+      <label>Available:</label>
+      <input type="checkbox" formControlName="available">
+    </div>
+
+    <div>
+      <label>Category:</label>
+      <select formControlName="categoryId">
+        <option value="">Select Category</option>
+        <option *ngFor="let category of categories" [value]="category.id">
+          {{ category.fullPath }}
+        </option>
+      </select>
+      <div *ngIf="productForm.get('categoryId')?.invalid && productForm.get('categoryId')?.touched">
+        Category is required.
       </div>
-  
-      <div>
-        <label>Available:</label>
-        <input type="checkbox" formControlName="available">
-      </div>
-  
-      <div>
-        <label>Category ID:</label>
-        <input type="number" formControlName="categoryId">
-        <div *ngIf="productForm.get('categoryId')?.invalid && productForm.get('categoryId')?.touched">
-          Category ID is required.
-        </div>
-      </div>
-  
-      <div style="margin-top: 20px;">
-        <button type="submit" [disabled]="productForm.invalid">Save Changes</button>
-        <button routerLink="/products">Cancel</button>
-      </div>
-    </form>
-  </div>
+    </div>
+
+    <div style="margin-top: 20px;">
+      <button type="submit" [disabled]="productForm.invalid">Save Changes</button>
+      <button routerLink="/products">Cancel</button>
+    </div>
+  </form>
+</div>
   

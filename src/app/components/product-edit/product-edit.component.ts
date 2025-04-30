@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService, Product } from '../../services/product.service';
+import { Category, CategoryService } from 'src/app/services/category.service';
 
 
 @Component({
@@ -13,12 +14,15 @@ import { ProductService, Product } from '../../services/product.service';
 export class ProductEditComponent implements OnInit {
   productForm: FormGroup;
   productId!: number;
+  categories: Category[] = [];
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private productService: ProductService
+    private productService: ProductService,
+    private categoryService: CategoryService
+
   ) {
     this.productForm = this.fb.group({
       name: ['', Validators.required],
@@ -31,7 +35,14 @@ export class ProductEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.productId = Number(this.route.snapshot.paramMap.get('id'));
+    this.loadCategories();
     this.loadProduct();
+  }
+
+  loadCategories(): void {
+    this.categoryService.getCategories().subscribe(data => {
+      this.categories = data;
+    });
   }
 
   loadProduct(): void {
@@ -41,7 +52,7 @@ export class ProductEditComponent implements OnInit {
         description: product.description,
         price: product.price,
         available: product.available,
-        categoryId: product.category.id
+        categoryPath: product.categoryPath
       });
     });
   }

@@ -29,13 +29,18 @@
       </div>
   
       <div>
-        <label>Category ID:</label>
-        <input type="number" formControlName="categoryId">
+        <label>Category:</label>
+        <select formControlName="categoryId">
+          <option value="">Select Category</option>
+          <option *ngFor="let category of categories" [value]="category.id">
+            {{ category.fullPath }}
+          </option>
+        </select>
         <div *ngIf="productForm.get('categoryId')?.invalid && productForm.get('categoryId')?.touched">
-          Category ID is required.
+          Category is required.
         </div>
       </div>
-  
+    
       <div style="margin-top: 20px;">
         <button type="submit" [disabled]="productForm.invalid">Save</button>
         <button routerLink="/products">Cancel</button>

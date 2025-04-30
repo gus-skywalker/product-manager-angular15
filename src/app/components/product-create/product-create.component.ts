@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ProductService, Product } from '../../services/product.service';
+import { ProductService, Product, ProductRequest } from '../../services/product.service';
 import { Router } from '@angular/router';
+import { Category, CategoryService } from 'src/app/services/category.service';
 
 @Component({
   selector: 'app-product-create',
@@ -10,10 +11,12 @@ import { Router } from '@angular/router';
 })
 export class ProductCreateComponent {
   productForm: FormGroup;
+  categories: Category[] = [];
 
   constructor(
     private fb: FormBuilder,
     private productService: ProductService,
+    private categoryService: CategoryService,
     private router: Router
   ) {
     this.productForm = this.fb.group({
@@ -25,15 +28,27 @@ export class ProductCreateComponent {
     });
   }
 
+  ngOnInit(): void {
+    this.loadCategories();
+  }
+
+  loadCategories(): void {
+    this.categoryService.getCategories().subscribe(data => {
+      this.categories = data;
+    });
+  }
+
   onSubmit(): void {
     if (this.productForm.valid) {
       const formData = this.productForm.value;
-      const product: Product = {
+      const product: ProductRequest = {
         name: formData.name,
         description: formData.description,
         price: formData.price,
         available: formData.available,
-        category: { id: formData.categoryId }
+        category: {
+          id: formData.categoryId
+        }
       };
 
       this.productService.createProduct(product).subscribe(() => {

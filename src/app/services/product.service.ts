@@ -14,6 +14,25 @@ export interface Product {
   };
 }
 
+export interface ProductDTO {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  available: boolean;
+  categoryPath: string;
+}
+
+export interface ProductRequest {
+  name: string;
+  description: string;
+  price: number;
+  available: boolean;
+  category: {
+    id: number;
+  };
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -23,20 +42,20 @@ export class ProductService {
 
   constructor(private http: HttpClient) { }
 
-  getProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(this.apiUrl);
+  getProducts(): Observable<ProductDTO[]> {
+    return this.http.get<ProductDTO[]>(this.apiUrl);
   }
 
-  getProductById(id: number): Observable<Product> {
-    return this.http.get<Product>(`${this.apiUrl}/${id}`);
+  getProductById(id: number): Observable<ProductDTO> {
+    return this.http.get<ProductDTO>(`${this.apiUrl}/${id}`);
   }
 
-  createProduct(product: Product): Observable<Product> {
-    return this.http.post<Product>(this.apiUrl, product);
+  createProduct(product: ProductRequest): Observable<any> {
+    return this.http.post<ProductRequest>(this.apiUrl, product);
   }
 
-  updateProduct(id: number, product: Product): Observable<Product> {
-    return this.http.put<Product>(`${this.apiUrl}/${id}`, product);
+  updateProduct(id: number, product: ProductRequest): Observable<any> {
+    return this.http.put<ProductRequest>(`${this.apiUrl}/${id}`, product);
   }
 
   deleteProduct(id: number): Observable<void> {

@@ -10,6 +10,7 @@
           <th>Description</th>
           <th>Price</th>
           <th>Available</th>
+          <th>Category</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -19,6 +20,7 @@
           <td>{{ product.description }}</td>
           <td>{{ product.price | currency }}</td>
           <td>{{ product.available ? 'Yes' : 'No' }}</td>
+          <td>{{ product.categoryPath }}</td>
           <td>
             <button [routerLink]="['/products/edit', product.id]">Edit</button>
             <button *ngIf="product.id" (click)="deleteProduct(product.id)">Delete</button>
