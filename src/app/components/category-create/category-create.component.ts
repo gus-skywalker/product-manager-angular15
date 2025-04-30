@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Category, CategoryCreateRequest, CategoryService } from 'src/app/services/category.service';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-category-create',
@@ -15,7 +16,8 @@ export class CategoryCreateComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private categoryService: CategoryService,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {
     this.categoryForm = this.fb.group({
       name: ['', Validators.required],
@@ -36,7 +38,12 @@ export class CategoryCreateComponent implements OnInit {
       };
 
       this.categoryService.createCategory(newCategory).subscribe(() => {
-        this.router.navigate(['/categories']); // ou onde desejar
+        this.snackBar.open('Category created successfully!', 'Close', {
+          duration: 3000,
+          verticalPosition: 'top'
+        });
+  
+        this.router.navigate(['/categories/create']);
       });
     }
   }

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { Category, CategoryService } from 'src/app/services/category.service';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-product-list',
@@ -31,6 +32,7 @@ export class ProductListComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private categoryService: CategoryService,
+    private authService: AuthService,
     private router: Router
   ) {}
 
@@ -56,7 +58,6 @@ export class ProductListComponent implements OnInit {
       this.totalItems = data.totalElements;
     });
   }
-  
 
   onPageChange(event: PageEvent): void {
     this.pageSize = event.pageSize;
@@ -82,4 +83,10 @@ export class ProductListComponent implements OnInit {
       });
     }
   }
+
+  logout(): void {
+    this.authService.clear();
+    this.router.navigate(['/goodbye']);
+  }
+  
 }

@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService, Product } from '../../services/product.service';
 import { Category, CategoryService } from 'src/app/services/category.service';
-
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-product-edit',
@@ -22,8 +22,8 @@ export class ProductEditComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private productService: ProductService,
-    private categoryService: CategoryService
-
+    private categoryService: CategoryService,
+    private snackBar: MatSnackBar
   ) {
     this.productForm = this.fb.group({
       name: ['', Validators.required],
@@ -75,6 +75,10 @@ export class ProductEditComponent implements OnInit {
       };
 
       this.productService.updateProduct(this.productId, updatedProduct).subscribe(() => {
+        this.snackBar.open('Product modified successfully!', 'Close', {
+          duration: 3000,
+          verticalPosition: 'top'
+        });
         this.router.navigate(['/products']);
       });
     }

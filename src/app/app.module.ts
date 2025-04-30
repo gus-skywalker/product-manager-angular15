@@ -24,13 +24,21 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CategoryCreateComponent } from './components/category-create/category-create.component';
 
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { BasicAuthInterceptor } from './auth/basic-auth.interceptor';
+import { LoginComponent } from './auth/login/login.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { GoodbyeComponent } from './components/goodbye/goodbye.component';
+
 @NgModule({
   declarations: [
     AppComponent,
     ProductListComponent,
     ProductCreateComponent,
     ProductEditComponent,
-    CategoryCreateComponent
+    CategoryCreateComponent,
+    LoginComponent,
+    GoodbyeComponent
   ],
   imports: [
     BrowserModule,
@@ -39,6 +47,7 @@ import { CategoryCreateComponent } from './components/category-create/category-c
     ReactiveFormsModule,
     BrowserAnimationsModule,
     FormsModule,
+
 
     // Angular Material Modules
     MatTableModule,
@@ -51,10 +60,17 @@ import { CategoryCreateComponent } from './components/category-create/category-c
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatSnackBarModule,
     // end Angular Material Modules
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: BasicAuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

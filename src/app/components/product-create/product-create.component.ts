@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProductService, Product, ProductRequest } from '../../services/product.service';
 import { Router } from '@angular/router';
 import { Category, CategoryService } from 'src/app/services/category.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-product-create',
@@ -17,7 +18,8 @@ export class ProductCreateComponent {
     private fb: FormBuilder,
     private productService: ProductService,
     private categoryService: CategoryService,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {
     this.productForm = this.fb.group({
       name: ['', Validators.required],
@@ -52,6 +54,10 @@ export class ProductCreateComponent {
       };
 
       this.productService.createProduct(product).subscribe(() => {
+        this.snackBar.open('Product created successfully!', 'Close', {
+          duration: 3000,
+          verticalPosition: 'top'
+        });
         this.router.navigate(['/products']);
       });
     }
